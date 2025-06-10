@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block style %}
+
+<style>
+  body{
+    background-color: #c8c8c8;
+  }
+  .container-warning{
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .container{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .form{
+    background-color: #a3a3a3;
+    height: 180px;
+    width: 85%;
+    padding: 10px; 
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: ;
+  }
+  .form-control{
+   margin-top: 3px;
+   margin-bottom: 10px;
+   height: 20%;
+   width: 100%; 
+  }
+  .btn-flex{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .h1-text{
+    width: 100%;
+  }
+  .h1-center{
+    text-align: center;
+  }
+  button{
+    background-color: blue;
+    color: white;
+    border: none;
+    height: 30px;
+    width: 30%; 
+    border-radius: 10px;
+  }
+  label{
+    margin: 5px;
+  }
+  li{
+    margin-bottom: 10px;
+  }
+</style>
+
+{%  endblock%}
+
+{% block body %}
+<div class="container-warning">
+ <h1 class='h1-text'><i><b>Useges!!!</b></i></h1>
+ <p>This is a website where you can generate QR code of Any URL</p> 
+ <hr>
+</div>
+<div>
+  <p>
+   <ol>
+     <li>Enter a Title</li>
+     <li>Enter the URL</li>
+     <li>Mind that when you want to make a URL of a downloadable file enter a valud URL, otherwise we do not hold any responsibility</li>
+     <li>Make sure the url starts with 'http:// ' or 'https://' </li>
+     <li>Click on Submit</li>
+   </ol>
+ </p>
+ <hr>
+</div>
+<h1 class="h1-center">Generate Your QR</h1>
+<div class="container">
+<form class='form' action="/" method="post">
+  {% csrf_token %}  
+  
+  <!-- title or name input -->
+  <label for='name'>TITLE:</label>
+  <input class="form-control" type="text" id="title" name="title"  placeholder="Enter the title" required/>
+  
+  <!-- URL input -->
+  <label for="url">Your URL:</label>
+  <input class="form-control" type="url" id="url" name="url" placeholder="Your URL" required/>
+  <div class="btn-flex">
+    <button type="submit">Submit</button>
+  </div>
+</form>  
+</div>
+{%  endblock%}

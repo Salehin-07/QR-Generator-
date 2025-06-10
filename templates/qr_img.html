@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+  body{
+    background-color: #c8c8c8;
+  }
+  .container{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .qr_img{
+    height: 80vw;
+    width: 80vw;
+    border: 1px solid black;
+  }
+  .h1-text{
+    text-align: center;
+  }
+  .text{
+    text-align: center;
+  }
+  .btn{
+    
+    line-height: 25px;
+    height: 25px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color:blue;
+    width: 100px;
+    border-radius: 5px;
+  }
+</style>
+{%  endblock%}
+
+{% block body %}
+<h1 class="h1-text">Here is your QR of : <br> [{{ title }}]</h1>
+<div class="container">
+  <img class="qr_img" src="{{ qr_url }}">
+</div>
+<div class="container">
+  <a class="btn" download="{{ file_name }}" href="{{ qr_url }}">Download</a>
+</div>
+<div class="container">
+  <small class="text">Thanks for using our QR Generator.</small>
+</div>
+{% endblock %}
