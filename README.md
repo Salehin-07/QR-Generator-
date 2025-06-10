@@ -53,20 +53,6 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
 - qrcode
 - pillow 
 
-## Project Structure
-
-```
-qr-code-generator/
-│
-├── app.py             # Flask application and QR generation logic
-├── requirements.txt   # Python dependencies
-├── static/
-│   └── style.css     # CSS styling
-├── templates/
-│   └── index.html    # Main webpage template
-└── README.md
-```
-
 ## Author
 
 - [Salehin-07](https://github.com/Salehin-07)
