@@ -33,7 +33,7 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
 
 1. **Start the web server:**
    ```bash
-   python app.py
+   python manage.py runserver 
    ```
 
 2. **Open your web browser and visit:**
@@ -47,15 +47,11 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
    - Your QR code will be displayed
    - Download the QR code image if desired
 
-## Example
-
-![QR Example](example_qr.png)
-
 ## Dependencies
 
-- flask
+- django
 - qrcode
-- pillow
+- pillow 
 
 ## Project Structure
 
