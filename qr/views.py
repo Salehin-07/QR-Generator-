@@ -1,24 +1,35 @@
-from django.shortcuts import render,redirect
-from django.conf import settings
+from django.shortcuts import render
 import qrcode
-import os
-# Create your views here.
+import io
+import base64
+
 def home(request):
-  if request.method == 'POST':
-    title = request.POST.get('title')
-    url = request.POST.get('url')
-    qr = qrcode.make(url)
-    file_name = title.replace(" ","_").lower()+'.png'
-    file_path = os.path.join(settings.MEDIA_ROOT,file_name)
-    qr.save(file_path)
-    #qr img url
-    qr_url = os.path.join(settings.MEDIA_URL, file_name)
-    
-    context = {
-      'title':title,
-      'qr_url': qr_url,
-      'file_name': file_name,
-    }
-    return render(request,"qr_img.html", context)
-  else:
-    return render(request,"home.html")
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        url = request.POST.get('url')
+
+        # Generate QR code
+        qr = qrcode.make(url)
+
+        # Save to memory
+        buffer = io.BytesIO()
+        qr.save(buffer, format='PNG')
+        buffer.seek(0)
+
+        # Convert to base64
+        img_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+        # Construct data URI
+        qr_url = f"data:image/png;base64,{img_base64}"
+
+        # Generate filename (for download)
+        file_name = title.replace(" ", "_").lower() + '.png'
+
+        context = {
+            'title': title,
+            'qr_url': qr_url,
+            'file_name': file_name,
+        }
+        return render(request, "qr_img.html", context)
+
+    return render(request, "home.html")
