@@ -140,9 +140,13 @@ MEDIA_URL = '/media/'
 
 # for production security
 
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Also apply to subdomains
+SECURE_HSTS_PRELOAD = True  # Optional, used for HSTS preload lists
+
 SECURE_SSL_REDIRECT = False
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 #WhiteNoise configuration
