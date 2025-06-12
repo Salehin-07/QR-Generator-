@@ -53,7 +53,7 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
 1. **Go to this website and generate QR:**
     
    ```
-   https://qr-generator-vi36.onrender.com
+   https://qr-generator-vi36.onrender.com/
    ```
 
 ## Dependencies
