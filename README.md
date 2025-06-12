@@ -21,7 +21,7 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Salehin-07/qr-code-generator.git
-   cd qr-code-generator
+   cd QR_Generator
    ```
 
 2. **Install dependencies:**
