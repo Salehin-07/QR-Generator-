@@ -14,7 +14,7 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
 
 - **Python** – Backend server and QR code generation
 - **HTML & CSS** – Responsive web interface
-- **Flask** – Web framework for serving the application
+- **Django** – Python web framework for serving the application
 
 ## Installation
 
@@ -42,10 +42,18 @@ A web-based QR code generator that converts URLs into scannable QR codes. Built 
    ```
 
 3. **How to use:**
+   - Enter a Title 
    - Enter any valid URL in the input field
-   - Click "Generate QR Code"
+   - Click "Submit"
    - Your QR code will be displayed
    - Download the QR code image if desired
+
+## Generate Qr codes by Website 
+
+1. **Go to this website and generate QR**
+   ```
+   https://qr-generator-vi36.onrender.com
+   ```
 
 ## Dependencies
 
@@ -75,6 +83,5 @@ Feel free to:
 
 Tested and working on:
 - Google Chrome
-- Mozilla Firefox
-- Microsoft Edge
-- Safari
+- Kiwi
+  
