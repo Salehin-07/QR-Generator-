@@ -2,48 +2,554 @@
 
 {% block style %}
 <style>
-  body{
-    background-color: #c8c8c8;
-  }
-  .container{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
-  .qr_img{
-    height: 80vw;
-    width: 80vw;
-    border: 1px solid black;
-  }
-  .h1-text{
-    text-align: center;
-  }
-  .text{
-    text-align: center;
-  }
-  .btn{
-    
-    line-height: 25px;
-    height: 25px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    background-color:blue;
-    width: 100px;
-    border-radius: 5px;
-  }
+    .result-card {
+        background: rgba(255, 255, 255, 0.98);
+        text-align: center;
+    }
+
+    .result-header {
+        background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
+        padding: 2.5rem 2rem;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: bounce 1s ease-in-out;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-20px);
+        }
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .result-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #4c1d95;
+        margin-bottom: 0.5rem;
+    }
+
+    .result-subtitle {
+        color: #6b21a8;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .qr-title-display {
+        background: linear-gradient(135deg, #8b5cf6 0%, #c084fc 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+    }
+
+    .qr-container {
+        padding: 3rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .qr-display-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .qr-display {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 
+            0 20px 40px rgba(139, 92, 246, 0.15),
+            0 0 0 1px rgba(139, 92, 246, 0.1);
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .qr-display:hover {
+        transform: translateY(-5px);
+        box-shadow: 
+            0 30px 60px rgba(139, 92, 246, 0.2),
+            0 0 0 1px rgba(139, 92, 246, 0.15);
+    }
+
+    .qr-display::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #8b5cf6, #c084fc, #ddd6fe, #8b5cf6);
+        border-radius: 22px;
+        z-index: -1;
+        animation: rotate 3s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .qr-image {
+        width: 280px;
+        height: 280px;
+        border-radius: 12px;
+        display: block;
+    }
+
+    .qr-info {
+        background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        max-width: 400px;
+    }
+
+    .qr-info-title {
+        color: #4c1d95;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .qr-url {
+        color: #6b21a8;
+        font-size: 0.9rem;
+        word-break: break-all;
+        background: rgba(139, 92, 246, 0.1);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        font-family: monospace;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 2rem 0;
+    }
+
+    .download-button {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .download-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .back-button {
+        background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+        color: #6b21a8;
+        border: 2px solid #c084fc;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .back-button:hover {
+        background: linear-gradient(135deg, #e9d5ff 0%, #ddd6fe 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+        color: #4c1d95;
+    }
+
+    .share-section {
+        background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        max-width: 500px;
+    }
+
+    .share-title {
+        color: #4c1d95;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .share-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .share-button {
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 10px;
+        background: white;
+        color: #6b21a8;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        cursor: pointer;
+    }
+
+    .share-button:hover {
+        background: #f3e8ff;
+        transform: translateY(-1px);
+    }
+
+    .footer-section {
+        background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
+        padding: 2rem;
+        border-top: 1px solid rgba(139, 92, 246, 0.1);
+        text-align: center;
+    }
+
+    .footer-text {
+        color: #6b21a8;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .footer-subtext {
+        color: #9ca3af;
+        font-size: 0.85rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+        max-width: 400px;
+    }
+
+    .stat-item {
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #4c1d95;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #6b21a8;
+        margin-top: 0.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .result-header {
+            padding: 2rem 1.5rem;
+        }
+        
+        .qr-container {
+            padding: 2rem 1.5rem;
+        }
+        
+        .qr-image {
+            width: 250px;
+            height: 250px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .download-button,
+        .back-button {
+            width: 200px;
+            justify-content: center;
+        }
+        
+        .result-title {
+            font-size: 1.6rem;
+        }
+    }
 </style>
-{%  endblock%}
+{% endblock %}
 
 {% block body %}
-<h1 class="h1-text">Here is your QR of : <br> [{{ title }}]</h1>
-<div class="container">
-  <img class="qr_img" src="{{ qr_url }}">
+<div class="card result-card">
+    <!-- Header Section -->
+    <div class="result-header">
+        <div class="success-icon">✨</div>
+        <h1 class="result-title">QR Code Generated Successfully!</h1>
+        <p class="result-subtitle">Your professional QR code is ready to use</p>
+        <div class="qr-title-display">{{ title }}</div>
+    </div>
+    
+    <!-- QR Code Display Section -->
+    <div class="qr-container">
+        <div class="qr-display-wrapper">
+            <div class="qr-display">
+                <img class="qr-image" src="{{ qr_url }}" alt="QR Code for {{ title }}">
+            </div>
+        </div>
+        
+        <!-- QR Code Information -->
+        <div class="qr-info">
+            <div class="qr-info-title">🔗 Target URL:</div>
+            <div class="qr-url">{{ url }}</div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">300px</span>
+                <div class="stat-label">Resolution</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">PNG</span>
+                <div class="stat-label">Format</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">High</span>
+                <div class="stat-label">Quality</div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a class="download-button" download="{{ file_name }}" href="{{ qr_url }}">
+                <span>📥</span>
+                Download QR Code
+            </a>
+            <a class="back-button" href="/">
+                <span>←</span>
+                Generate Another
+            </a>
+        </div>
+        
+        <!-- Share Section -->
+        <div class="share-section">
+            <div class="share-title">📤 Share Your QR Code</div>
+            <div class="share-buttons">
+                <button class="share-button" onclick="copyToClipboard('{{ qr_url }}')">
+                    <span>📋</span>
+                    Copy Link
+                </button>
+                <a class="share-button" href="mailto:?subject=Check out this QR code&body=I generated this QR code for {{ title }}: {{ qr_url }}">
+                    <span>✉️</span>
+                    Email
+                </a>
+                <button class="share-button" onclick="printQR()">
+                    <span>🖨️</span>
+                    Print
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <div class="footer-section">
+        <p class="footer-text">🎉 Thank you for using QR Generator Pro!</p>
+        <p class="footer-subtext">Create unlimited QR codes for all your needs</p>
+    </div>
 </div>
-<div class="container">
-  <a class="btn" download="{{ file_name }}" href="{{ qr_url }}">Download</a>
-</div>
-<div class="container">
-  <small class="text">Thanks for using our QR Generator.</small>
-</div>
+
+<script>
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function() {
+            alert('✅ QR code link copied to clipboard!');
+        }, function(err) {
+            console.error('Could not copy text: ', err);
+            fallbackCopyTextToClipboard(text);
+        });
+    } else {
+        fallbackCopyTextToClipboard(text);
+    }
+}
+
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            alert('✅ QR code link copied to clipboard!');
+        } else {
+            alert('❌ Failed to copy link');
+        }
+    } catch (err) {
+        console.error('Fallback: Could not copy text: ', err);
+        alert('❌ Copy not supported on this browser');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function printQR() {
+    const qrImage = document.querySelector('.qr-image');
+    const title = '{{ title|escapejs }}';
+    const url = '{{ url|escapejs }}';
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>QR Code - ${title}</title>
+                <style>
+                    body { 
+                        display: flex; 
+                        justify-content: center; 
+                        align-items: center; 
+                        min-height: 100vh; 
+                        margin: 0; 
+                        font-family: 'Inter', Arial, sans-serif;
+                        background: white;
+                    }
+                    .print-container {
+                        text-align: center;
+                        padding: 2rem;
+                        max-width: 500px;
+                    }
+                    .qr-image { 
+                        width: 300px; 
+                        height: 300px; 
+                        border: 3px solid #8b5cf6;
+                        border-radius: 15px;
+                        margin: 1.5rem 0;
+                        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+                    }
+                    .title {
+                        color: #4c1d95;
+                        font-size: 1.8rem;
+                        font-weight: bold;
+                        margin-bottom: 1rem;
+                        background: linear-gradient(135deg, #8b5cf6 0%, #c084fc 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+                    .url {
+                        color: #6b21a8;
+                        font-size: 0.9rem;
+                        word-break: break-all;
+                        margin-top: 1.5rem;
+                        padding: 1rem;
+                        background: #f8faff;
+                        border: 1px solid #e9d5ff;
+                        border-radius: 8px;
+                        font-family: monospace;
+                    }
+                    .footer {
+                        margin-top: 2rem;
+                        color: #9ca3af;
+                        font-size: 0.8rem;
+                    }
+                    @media print {
+                        body { 
+                            background: white !important; 
+                        }
+                        .print-container {
+                            box-shadow: none !important;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="print-container">
+                    <div class="title">${title}</div>
+                    <img class="qr-image" src="${qrImage.src}" alt="QR Code">
+                    <div class="url">${url}</div>
+                    <div class="footer">Generated with QR Generator Pro</div>
+                </div>
+            </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.onload = function() {
+        printWindow.print();
+    };
+}
+
+// Add some interactive effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effect to QR code
+    const qrDisplay = document.querySelector('.qr-display');
+    if (qrDisplay) {
+        qrDisplay.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        qrDisplay.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    }
+    
+    // Add click effect to share buttons
+    const shareButtons = document.querySelectorAll('.share-button');
+    shareButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+});
+</script>
 {% endblock %}
