@@ -27,12 +27,12 @@ SECRET_KEY = get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['qr-generator-vi36.onrender.com',
-                 'qr-generator.onrender.com',
-                 '100.20.92.101',
-                 '44.225.181.72',
-                 '44.227.217.144',
-                ]
+ALLOWED_HOSTS = [
+  'qr-karma.onrender.com',
+  '100.20.92.101',
+  '44.225.181.72',
+  '44.227.217.144',
+]
 
 
 # Application definition
