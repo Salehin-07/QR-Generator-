@@ -1,97 +1,330 @@
 {% extends 'base.html' %}
 
 {% block style %}
-
 <style>
-  body{
-    background-color: #c8c8c8;
-  }
-  .container-warning{
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  .container{
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  .form{
-    background-color: #a3a3a3;
-    height: 180px;
-    width: 85%;
-    padding: 10px; 
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: ;
-  }
-  .form-control{
-   margin-top: 3px;
-   margin-bottom: 10px;
-   height: 20%;
-   width: 100%; 
-  }
-  .btn-flex{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  .h1-text{
-    width: 100%;
-  }
-  .h1-center{
-    text-align: center;
-  }
-  button{
-    background-color: blue;
-    color: white;
-    border: none;
-    height: 30px;
-    width: 30%; 
-    border-radius: 10px;
-  }
-  label{
-    margin: 5px;
-  }
-  li{
-    margin-bottom: 10px;
-  }
-</style>
+    .instructions-card {
+        background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
+        border-left: 5px solid #8b5cf6;
+    }
 
-{%  endblock%}
+    .instructions-header {
+        padding: 2rem 2rem 1rem 2rem;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .instructions-title {
+        color: #4c1d95;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .instructions-subtitle {
+        color: #6b21a8;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+
+    .instructions-content {
+        padding: 1.5rem 2rem 2rem 2rem;
+    }
+
+    .instruction-list {
+        list-style: none;
+        counter-reset: step-counter;
+        margin: 0;
+    }
+
+    .instruction-list li {
+        counter-increment: step-counter;
+        margin-bottom: 1rem;
+        padding-left: 3rem;
+        position: relative;
+        color: #374151;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .instruction-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0.1rem;
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: white;
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+    }
+
+    .important-note {
+        background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+        border: 1px solid #f59e0b;
+        border-radius: 12px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+        color: #92400e;
+        font-size: 0.9rem;
+    }
+
+    .important-note strong {
+        color: #78350f;
+    }
+
+    .form-card {
+        background: rgba(255, 255, 255, 0.98);
+    }
+
+    .form-container {
+        padding: 3rem;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #4c1d95;
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+
+    .form-title::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(135deg, #8b5cf6 0%, #c084fc 100%);
+        border-radius: 2px;
+    }
+
+    .form-row {
+        display: grid;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8b5cf6;
+        font-size: 1.1rem;
+        z-index: 1;
+    }
+
+    .form-input-with-icon {
+        padding-left: 3rem;
+    }
+
+    .form-input:valid {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.05);
+    }
+
+    .submit-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .submit-button {
+        width: 100%;
+        max-width: 300px;
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: white;
+        border: none;
+        padding: 1.2rem 2rem;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        box-shadow: 0 12px 24px rgba(139, 92, 246, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .submit-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .submit-button:hover::before {
+        left: 100%;
+    }
+
+    .submit-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    }
+
+    .submit-button:active {
+        transform: translateY(-1px);
+    }
+
+    .feature-highlights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 0 1rem;
+    }
+
+    .feature-item {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+        border: 1px solid rgba(139, 92, 246, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-text {
+        color: #6b21a8;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 2rem 1.5rem;
+        }
+        
+        .instructions-header,
+        .instructions-content {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        .form-title {
+            font-size: 1.6rem;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block body %}
-<div class="container-warning">
- <h1 class='h1-text'><i><b>Useges!!!</b></i></h1>
- <p>Here you can generate QR code of Any URL</p> 
- <hr>
+<!-- Instructions Card -->
+<div class="card instructions-card">
+    <div class="instructions-header">
+        <h2 class="instructions-title">
+            <span style="font-size: 1.8rem;">💡</span>
+            Quick Start Guide
+        </h2>
+        <p class="instructions-subtitle">Follow these simple steps to generate your QR code</p>
+    </div>
+    <div class="instructions-content">
+        <ol class="instruction-list">
+            <li><strong>Enter a Title:</strong> Provide a descriptive name for your QR code to easily identify it later</li>
+            <li><strong>Add Your URL:</strong> Paste the complete web address you want to convert</li>
+            <li><strong>Verify URL Format:</strong> Ensure your URL starts with 'http://' or 'https://' for proper functionality</li>
+            <li><strong>Check Accessibility:</strong> For downloadable files, make sure the URL is publicly accessible</li>
+            <li><strong>Generate & Download:</strong> Click submit to create your professional QR code</li>
+        </ol>
+        
+        <div class="important-note">
+            <strong>⚠️ Important:</strong> We are not responsible for broken or inaccessible URLs. Please verify your links before generating QR codes.
+        </div>
+    </div>
 </div>
-<div>
-  <p>
-   <ol>
-     <li>Enter a Title</li>
-     <li>Enter the URL</li>
-     <li>Mind that when you want to make a URL of a downloadable file enter a valud URL, otherwise we do not hold any responsibility</li>
-     <li>Make sure the url starts with 'http:// ' or 'https://' </li>
-     <li>Click on Submit</li>
-   </ol>
- </p>
- <hr>
+
+<!-- Form Card -->
+<div class="card form-card">
+    <div class="form-container">
+        <h1 class="form-title">Create Your QR Code</h1>
+        <form action="/" method="post">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="title">
+                        <span style="color: #8b5cf6;">📝</span> QR Code Title
+                    </label>
+                    <div class="input-group">
+                        <input 
+                            class="form-input" 
+                            type="text" 
+                            id="title" 
+                            name="title" 
+                            placeholder="e.g., My Portfolio, Company Website, Product Demo" 
+                            required
+                            maxlength="50"
+                        >
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="url">
+                        <span style="color: #8b5cf6;">🔗</span> Target URL
+                    </label>
+                    <div class="input-group">
+                        <input 
+                            class="form-input" 
+                            type="url" 
+                            id="url" 
+                            name="url" 
+                            placeholder="https://www.example.com" 
+                            required
+                        >
+                    </div>
+                </div>
+            </div>
+            
+            <div class="submit-container">
+                <button type="submit" class="submit-button">
+                    Generate QR Code
+                </button>
+            </div>
+        </form>
+        
+        <!-- Feature Highlights -->
+        <div class="feature-highlights">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-text">Instant Generation</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📱</div>
+                <div class="feature-text">Mobile Optimized</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-text">High Quality</div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💾</div>
+                <div class="feature-text">Easy Download</div>
+            </div>
+        </div>
+    </div>
 </div>
-<h1 class="h1-center">Generate Your QR</h1>
-<div class="container">
-<form class='form' action="/" method="post">
-  {% csrf_token %}  
-  
-  <!-- title or name input -->
-  <label for='name'>TITLE:</label>
-  <input class="form-control" type="text" id="title" name="title"  placeholder="Enter the title" required/>
-  
-  <!-- URL input -->
-  <label for="url">Your URL:</label>
-  <input class="form-control" type="url" id="url" name="url" placeholder="Your URL" required/>
-  <div class="btn-flex">
-    <button type="submit">Submit</button>
-  </div>
-</form>  
-</div>
-{%  endblock%}
+{% endblock %}
