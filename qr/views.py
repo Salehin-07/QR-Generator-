@@ -29,6 +29,7 @@ def home(request):
             'title': title,
             'qr_url': qr_url,
             'file_name': file_name,
+            'url':url,
         }
         return render(request, "qr_img.html", context)
 
